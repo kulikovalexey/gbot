@@ -21,14 +21,22 @@ Route::match(['get', 'post'], 'register', function() {
    return redirect('/');
 })->name('register');
 
+//Route::middleware(['auth'])->prefix('admin')->namespace('Backend')->name('admin.')->group(function (){
+//    Route::get('/', 'DashboardController@index')->name('index');
+//
+//    Route::get('/setting', 'SettingController@index')->name('setting.index');
+//    Route::post('/setting/store', 'SettingController@store')->name('setting.store');
+//
+//    Route::post('setting/setwebhook', 'SettingController@setwebhook')->name('setting.setwebhook');
+//    Route::post('setting/getwebhookinfo', 'SettingController@getwebhookinfo')->name('setting.getwebhookinfo');
+//});
+
+
 Route::middleware(['auth'])->prefix('admin')->namespace('Backend')->name('admin.')->group(function (){
     Route::get('/', 'DashboardController@index')->name('index');
 
     Route::get('/setting', 'SettingController@index')->name('setting.index');
     Route::post('/setting/store', 'SettingController@store')->name('setting.store');
-
-    Route::post('setting/setwebhook', 'SettingController@setwebhook')->name('setting.setwebhook');
-    Route::post('setting/getwebhookinfo', 'SettingController@getwebhookinfo')->name('setting.getwebhookinfo');
 });
 
 Auth::routes();
