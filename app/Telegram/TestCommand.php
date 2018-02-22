@@ -29,15 +29,18 @@ class TestCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function handle()
+    public function handle($arguments)
     {
-        $commands = $this->telegram->getCommands();
+       $this-> replyWithChatAction(['action' => Actions::TYPING]);
 
-        $text = '';
-        foreach ($commands as $name => $handler) {
-            $text .= sprintf('/%s - %s'.PHP_EOL, $name, $handler->getDescription());
-        }
+       $user = \App\User::find(1);
 
-        $this->replyWithMessage(compact('text'));
+       $this->replyWithMessage(['text' => 'Почта пользователя в Laravel: ' . $user->email]);
+
+       $telegram_user = \Telegram::getWebhookUpdates()['message'];
+       $text = sprintf('%s: %s' . PHP_EOL . 'Ваш номер чата', $telegram_user['from']['id']);
+       $text .= sprontf('%s: %s' . PHP_EOL . 'Ваше имя пользователя в телеграм', $telegram_user['from']['username']);
+
+       $this->replyWithMessage(compact('text'));
     }
 }
